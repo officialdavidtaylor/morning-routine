@@ -1,4 +1,5 @@
 import { Link, Route, Switch } from 'wouter';
+import { Routine } from './views/Routine';
 
 export default function App() {
   return (
@@ -6,7 +7,7 @@ export default function App() {
       {/* anything outside of the switch will render on all "routes" */}
       <Switch>
         <Route path="/routine">
-          <h1 className="text-4xl font-semibold">Good morning 🌞</h1>
+          <Routine />
         </Route>
 
         <Route path="/">
