@@ -1,4 +1,5 @@
 import { atomWithStorage } from 'jotai/utils';
+import { bindListener_resetTasksOnVisible } from '../../utils/bindListener_resetTasksOnVisible';
 import { focusAtom } from 'jotai-optics';
 import { useAtom } from 'jotai';
 import { useState } from 'react';
@@ -16,6 +17,9 @@ export const routineAtom = atomWithStorage(
 );
 /** An atom derived from the `tasks` field of the `routineAtom` */
 const tasksAtom = focusAtom(routineAtom, (optic) => optic.prop('tasks'));
+
+// set up a listener to ensure the task `checked` states are correct when the user revisits the page
+bindListener_resetTasksOnVisible();
 
 /**
  * Displays the set of tasks, allows the user to check/uncheck the tasks, and
@@ -46,7 +50,7 @@ export const Routine = () => {
                   onClick={() => {
                     setTasks((prevTasks) => {
                       const newTasks = Array.from(prevTasks);
-                    newTasks.splice(index, 1);
+                      newTasks.splice(index, 1);
                       return newTasks;
                     });
                   }}
@@ -61,10 +65,10 @@ export const Routine = () => {
                   onChange={(e) => {
                     setTasks((prevTasks) => {
                       const newTasks = Array.from(prevTasks);
-                    newTasks[index] = {
-                      ...newTasks[index],
-                      title: e.target.value,
-                    };
+                      newTasks[index] = {
+                        ...newTasks[index],
+                        title: e.target.value,
+                      };
                       return newTasks;
                     });
                   }}
@@ -79,10 +83,10 @@ export const Routine = () => {
                   onClick={() => {
                     setTasks((prevTasks) => {
                       const newTasks = Array.from(prevTasks);
-                    const currentElement = newTasks[index];
-                    const swapElement = newTasks[index - 1];
-                    newTasks[index] = swapElement;
-                    newTasks[index - 1] = currentElement;
+                      const currentElement = newTasks[index];
+                      const swapElement = newTasks[index - 1];
+                      newTasks[index] = swapElement;
+                      newTasks[index - 1] = currentElement;
                       return newTasks;
                     });
                   }}
@@ -96,10 +100,10 @@ export const Routine = () => {
                   onClick={() => {
                     setTasks((prevTasks) => {
                       const newTasks = Array.from(prevTasks);
-                    const currentElement = newTasks[index];
-                    const swapElement = newTasks[index + 1];
-                    newTasks[index] = swapElement;
-                    newTasks[index + 1] = currentElement;
+                      const currentElement = newTasks[index];
+                      const swapElement = newTasks[index + 1];
+                      newTasks[index] = swapElement;
+                      newTasks[index + 1] = currentElement;
                       return newTasks;
                     });
                   }}
@@ -115,11 +119,11 @@ export const Routine = () => {
                 onClick={() => {
                   setTasks((prevTasks) => {
                     const newTasks = Array.from(prevTasks);
-                  newTasks.push({
-                    checked: false,
-                    id: uuidv4(),
-                    title: '',
-                  });
+                    newTasks.push({
+                      checked: false,
+                      id: uuidv4(),
+                      title: '',
+                    });
                     return newTasks;
                   });
                 }}
@@ -143,7 +147,7 @@ export const Routine = () => {
                 onChange={() => {
                   setTasks((prevTasks) => {
                     const newTasks = Array.from(prevTasks);
-                  newTasks[index].checked = !newTasks[index].checked;
+                    newTasks[index].checked = !newTasks[index].checked;
                     return newTasks;
                   });
                 }}
@@ -160,12 +164,12 @@ export const Routine = () => {
         )}
       </fieldset>
       <div className="fixed bottom-4 left-0 right-0 flex w-full justify-center">
-      <button
-        onClick={() => setEditMode((m) => !m)}
+        <button
+          onClick={() => setEditMode((m) => !m)}
           className="rounded-xl border-2 border-gray-200 bg-white px-2 text-gray-600"
-      >
-        {editMode ? 'save' : 'edit'}
-      </button>
+        >
+          {editMode ? 'save' : 'edit'}
+        </button>
       </div>
     </div>
   );
