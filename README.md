@@ -6,6 +6,8 @@
 
 All tasks are saved on your device to ensure privacy and minimize the infrastructure required for the system to work.
 
+Try it yourself at [https://morning-routine-helper.netlify.app/routine](https://morning-routine-helper.netlify.app/routine)!
+
 ## Tech stack
 - [Vite](https://vitejs.dev/) / React single page app
 - [tailwindcss](https://tailwindcss.com/) for styling
