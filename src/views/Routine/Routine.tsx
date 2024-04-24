@@ -1,10 +1,10 @@
-import { useState } from 'react';
-import { useAtom } from 'jotai';
 import { atomWithStorage } from 'jotai/utils';
-import { v4 as uuidv4 } from 'uuid';
 import { getCurrentDateString } from '../../utils/getCurrentDateString';
-import { TaskInstanace } from './schema';
+import { useAtom } from 'jotai';
 import { useRerenderOnVisibile } from '../../hooks/useRerenderOnVisible';
+import { useState } from 'react';
+import { v4 as uuidv4 } from 'uuid';
+import type { TaskInstanace } from './schema';
 
 /**
  * Configure Jotai atom for data used with the Routine component.
