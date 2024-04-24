@@ -169,12 +169,14 @@ export const Routine = () => {
           ))
         )}
       </fieldset>
+      <div className="fixed bottom-4 left-0 right-0 flex w-full justify-center">
       <button
         onClick={() => setEditMode((m) => !m)}
-        className="max-w-fit self-center rounded-xl border-2 border-gray-200 px-2 text-gray-600"
+          className="rounded-xl border-2 border-gray-200 bg-white px-2 text-gray-600"
       >
         {editMode ? 'save' : 'edit'}
       </button>
+      </div>
     </div>
   );
 };
