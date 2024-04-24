@@ -26,9 +26,9 @@ export const Routine = () => {
   const [tasks, setTasks] = useAtom(tasksAtom);
 
   return (
-    <div className="flex w-full flex-col gap-4">
+    <div className="flex w-full flex-col justify-between gap-4">
       <h1 className="text-4xl font-semibold">Good morning 🌞</h1>
-      <fieldset className="flex flex-col gap-2 pt-4">
+      <fieldset className="flex flex-col gap-2 pb-10 pt-4">
         {/*
          * TODO: At present there isn't an intuitive "starting" point.
          *       If the user hasn't configured any tasks yet they need to
@@ -147,7 +147,7 @@ export const Routine = () => {
                     return newTasks;
                   });
                 }}
-                className="peer form-checkbox h-6 w-6 rounded-md border-2 checked:bg-black checked:focus:bg-black"
+                className="peer form-checkbox h-6 w-6 rounded-md border-2 text-black"
               />
               <label
                 htmlFor={`cb-${id}`}
