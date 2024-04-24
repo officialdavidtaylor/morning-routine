@@ -4,6 +4,7 @@ import { atomWithStorage } from 'jotai/utils';
 import { v4 as uuidv4 } from 'uuid';
 import { getCurrentDateString } from '../../utils/getCurrentDateString';
 import { TaskInstanace } from './schema';
+import { useRerenderOnVisibile } from '../../hooks/useRerenderOnVisible';
 
 /**
  * Configure Jotai atom for data used with the Routine component.
@@ -22,6 +23,9 @@ const routineAtom = atomWithStorage(
  * check/uncheck the tasks, and make edits to the list.
  */
 export const Routine = () => {
+  // force the component to rerender when the user re-opens or re-focuses the page
+  useRerenderOnVisibile();
+
   const [editMode, setEditMode] = useState(false);
   const [items, setItems] = useAtom(routineAtom);
 
