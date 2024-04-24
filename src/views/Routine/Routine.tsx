@@ -151,7 +151,7 @@ export const Routine = () => {
               <input
                 id={`cb-${id}`}
                 type="checkbox"
-                defaultChecked={checked}
+                checked={checked}
                 onChange={() => {
                   const newTasks = Array.from(items.tasks);
                   newTasks[index].checked = !newTasks[index].checked;
