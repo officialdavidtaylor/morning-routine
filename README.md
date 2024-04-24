@@ -1,3 +1,5 @@
+[![Netlify Status](https://api.netlify.com/api/v1/badges/8fb90f54-9feb-4745-8f7e-37e8d679637d/deploy-status)](https://app.netlify.com/sites/morning-routine-helper/deploys)
+
 # Morning Routine Helper
 
 *A client-only webapp to help keep your morning routine on-track.*
