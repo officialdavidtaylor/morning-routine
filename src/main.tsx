@@ -12,7 +12,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     {/* The Jotai Provider ensures that updates to the store trigger re-renders */}
     <JotaiProvider store={jotaiStore}>
-    <App />
+      <App />
     </JotaiProvider>
   </React.StrictMode>,
 );

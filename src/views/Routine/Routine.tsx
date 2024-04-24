@@ -1,7 +1,6 @@
 import { atomWithStorage } from 'jotai/utils';
-import { getCurrentDateString } from '../../utils/getCurrentDateString';
+import { focusAtom } from 'jotai-optics';
 import { useAtom } from 'jotai';
-import { useRerenderOnVisibile } from '../../hooks/useRerenderOnVisible';
 import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import type { TaskInstanace } from './schema';
@@ -9,44 +8,22 @@ import type { TaskInstanace } from './schema';
 /**
  * Jotai atom that manages `routine` state, with persistance to localStorage
  */
-const routineAtom = atomWithStorage(
+export const routineAtom = atomWithStorage(
   'routine',
   { version: '1.0', dateLastUsed: '1970-01-01', tasks: [] as TaskInstanace[] },
   undefined,
   { getOnInit: true },
 );
+/** An atom derived from the `tasks` field of the `routineAtom` */
+const tasksAtom = focusAtom(routineAtom, (optic) => optic.prop('tasks'));
 
 /**
  * Displays the set of tasks, allows the user to check/uncheck the tasks, and
  * make edits to the task list.
  */
 export const Routine = () => {
-  // force the component to rerender when the user re-opens or re-focuses the page
-  useRerenderOnVisibile();
-
   const [editMode, setEditMode] = useState(false);
-  const [items, setItems] = useAtom(routineAtom);
-
-  const dateString = getCurrentDateString();
-
-  /**
-   * The list needs to be reset each new day, so we need to conditionally:
-   * - reset the `checked` status of all tasks
-   * - update the `dateLastUsed` to the current date
-   */
-  if (items.dateLastUsed !== dateString) {
-    const newRoutine = {
-      version: '1.0' as const,
-      dateLastUsed: dateString,
-      tasks: items.tasks.map((task) => {
-        return {
-          ...task,
-          checked: false,
-        };
-      }),
-    };
-    setItems(newRoutine);
-  }
+  const [tasks, setTasks] = useAtom(tasksAtom);
 
   return (
     <div className="flex w-full flex-col gap-4">
@@ -60,16 +37,18 @@ export const Routine = () => {
          */}
         {editMode ? (
           <>
-            {items.tasks.map(({ id, title }, index) => (
+            {tasks.map(({ id, title }, index) => (
               <div key={id} className="flex items-center gap-2 text-2xl">
                 <label htmlFor={`cb-${id}`} className="sr-only">
                   edit field for "{title}"
                 </label>
                 <button
                   onClick={() => {
-                    const newTasks = Array.from(items.tasks);
+                    setTasks((prevTasks) => {
+                      const newTasks = Array.from(prevTasks);
                     newTasks.splice(index, 1);
-                    setItems({ ...items, tasks: newTasks });
+                      return newTasks;
+                    });
                   }}
                   aria-label="delete task"
                 >
@@ -80,12 +59,14 @@ export const Routine = () => {
                   defaultValue={title}
                   type="text"
                   onChange={(e) => {
-                    const newTasks = Array.from(items.tasks);
+                    setTasks((prevTasks) => {
+                      const newTasks = Array.from(prevTasks);
                     newTasks[index] = {
                       ...newTasks[index],
                       title: e.target.value,
                     };
-                    setItems({ ...items, tasks: newTasks });
+                      return newTasks;
+                    });
                   }}
                   className="rounded-md border-2 border-gray-900 py-0 text-lg"
                 />
@@ -96,12 +77,14 @@ export const Routine = () => {
                 <button
                   disabled={index === 0}
                   onClick={() => {
-                    const newTasks = Array.from(items.tasks);
+                    setTasks((prevTasks) => {
+                      const newTasks = Array.from(prevTasks);
                     const currentElement = newTasks[index];
                     const swapElement = newTasks[index - 1];
                     newTasks[index] = swapElement;
                     newTasks[index - 1] = currentElement;
-                    setItems({ ...items, tasks: newTasks });
+                      return newTasks;
+                    });
                   }}
                   className="disabled:opacity-40"
                   aria-label="move task up one"
@@ -109,14 +92,16 @@ export const Routine = () => {
                   ⬆️
                 </button>
                 <button
-                  disabled={index === items.tasks.length - 1}
+                  disabled={index === tasks.length - 1}
                   onClick={() => {
-                    const newTasks = Array.from(items.tasks);
+                    setTasks((prevTasks) => {
+                      const newTasks = Array.from(prevTasks);
                     const currentElement = newTasks[index];
                     const swapElement = newTasks[index + 1];
                     newTasks[index] = swapElement;
                     newTasks[index + 1] = currentElement;
-                    setItems({ ...items, tasks: newTasks });
+                      return newTasks;
+                    });
                   }}
                   className="disabled:opacity-40"
                   aria-label="move task down one"
@@ -128,13 +113,15 @@ export const Routine = () => {
             <div className="text-2xl">
               <button
                 onClick={() => {
-                  const newTasks = Array.from(items.tasks);
+                  setTasks((prevTasks) => {
+                    const newTasks = Array.from(prevTasks);
                   newTasks.push({
                     checked: false,
                     id: uuidv4(),
                     title: '',
                   });
-                  setItems({ ...items, tasks: newTasks });
+                    return newTasks;
+                  });
                 }}
                 aria-label="add new task"
                 className="flex w-full items-center gap-2"
@@ -147,16 +134,18 @@ export const Routine = () => {
             </div>
           </>
         ) : (
-          items.tasks.map(({ id, title, checked }, index) => (
+          tasks.map(({ id, title, checked }, index) => (
             <div key={id} className="flex items-center gap-4 text-2xl">
               <input
                 id={`cb-${id}`}
                 type="checkbox"
                 checked={checked}
                 onChange={() => {
-                  const newTasks = Array.from(items.tasks);
+                  setTasks((prevTasks) => {
+                    const newTasks = Array.from(prevTasks);
                   newTasks[index].checked = !newTasks[index].checked;
-                  setItems({ ...items, tasks: newTasks });
+                    return newTasks;
+                  });
                 }}
                 className="peer form-checkbox h-6 w-6 rounded-md border-2 checked:bg-black checked:focus:bg-black"
               />
