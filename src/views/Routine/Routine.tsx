@@ -7,9 +7,7 @@ import { v4 as uuidv4 } from 'uuid';
 import type { TaskInstanace } from './schema';
 
 /**
- * Configure Jotai atom for data used with the Routine component.
- *
- * Data will be persisted to localStorage
+ * Jotai atom that manages `routine` state, with persistance to localStorage
  */
 const routineAtom = atomWithStorage(
   'routine',
@@ -19,8 +17,8 @@ const routineAtom = atomWithStorage(
 );
 
 /**
- * This React component will display the set of tasks, allow the user to
- * check/uncheck the tasks, and make edits to the list.
+ * Displays the set of tasks, allows the user to check/uncheck the tasks, and
+ * make edits to the task list.
  */
 export const Routine = () => {
   // force the component to rerender when the user re-opens or re-focuses the page
@@ -31,8 +29,11 @@ export const Routine = () => {
 
   const dateString = getCurrentDateString();
 
-  // the list needs to be reset each morning;
-  // if the 'dateLastUsed' value doesn't match today, reset the `checked` statuses
+  /**
+   * The list needs to be reset each new day, so we need to conditionally:
+   * - reset the `checked` status of all tasks
+   * - update the `dateLastUsed` to the current date
+   */
   if (items.dateLastUsed !== dateString) {
     const newRoutine = {
       version: '1.0' as const,
