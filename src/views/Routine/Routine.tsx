@@ -1,6 +1,7 @@
 import { atomWithStorage } from 'jotai/utils';
 import { bindListener_resetTasksOnVisible } from '../../utils/bindListener_resetTasksOnVisible';
 import { focusAtom } from 'jotai-optics';
+import { SunIcon } from 'lucide-react';
 import { useAtom } from 'jotai';
 import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
@@ -30,8 +31,15 @@ export const Routine = () => {
   const [tasks, setTasks] = useAtom(tasksAtom);
 
   return (
-    <div className="flex w-full flex-col justify-between gap-4">
-      <h1 className="text-4xl font-semibold">Good morning 🌞</h1>
+    <div className="flex w-full flex-col justify-between gap-2">
+      <h1 className="font-display flex gap-2 text-4xl">
+        <span>Good morning</span>
+        <SunIcon
+          size={32}
+          strokeWidth={2.3}
+          className="inline-block self-center"
+        />
+      </h1>
       <fieldset className="flex flex-col gap-2 pb-10 pt-4">
         {/*
          * TODO: At present there isn't an intuitive "starting" point.
@@ -163,7 +171,7 @@ export const Routine = () => {
           ))
         )}
       </fieldset>
-      <div className="fixed bottom-4 left-0 right-0 flex w-full justify-center">
+      <div className="fixed bottom-[max(env(safe-area-inset-bottom),_1rem)] left-0 right-0 flex w-full justify-center">
         <button
           onClick={() => setEditMode((m) => !m)}
           className="rounded-xl border-2 border-gray-200 bg-white px-2 text-gray-600"
