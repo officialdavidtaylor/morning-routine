@@ -14,6 +14,30 @@ export default defineConfig({
         short_name: 'Routine',
         description: 'A simple tool to help keep your mornings on track.',
         theme_color: '#ffffff',
+        icons: [
+          {
+            src: 'favicon/pwa-192x192.png',
+            sizes: '192x192',
+            type: 'image/png',
+          },
+          {
+            src: 'favicon/pwa-512x512.png',
+            sizes: '512x512',
+            type: 'image/png',
+          },
+          {
+            src: 'favicon/pwa-512x512.png',
+            sizes: '512x512',
+            type: 'image/png',
+            purpose: 'maskable',
+          },
+          {
+            src: 'favicon/pwa-512x512.png',
+            sizes: '512x512',
+            type: 'image/png',
+            purpose: 'any',
+          },
+        ],
       },
       devOptions: {
         enabled: true,
