@@ -8,11 +8,12 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: 'autoUpdate',
-      base: '/routine',
+      includeAssets: ['favicon.ico', 'favicon/apple-touch-icon.png'],
       manifest: {
         name: 'Morning Routine Helper',
         short_name: 'Routine',
         description: 'A simple tool to help keep your mornings on track.',
+        start_url: '/routine',
         theme_color: '#ffffff',
         icons: [
           {
