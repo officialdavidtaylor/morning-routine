@@ -163,7 +163,7 @@ export const Routine = () => {
           ))
         )}
       </fieldset>
-      <div className="fixed bottom-4 left-0 right-0 flex w-full justify-center">
+      <div className="fixed bottom-[max(env(safe-area-inset-bottom),_1rem)] left-0 right-0 flex w-full justify-center">
         <button
           onClick={() => setEditMode((m) => !m)}
           className="rounded-xl border-2 border-gray-200 bg-white px-2 text-gray-600"
